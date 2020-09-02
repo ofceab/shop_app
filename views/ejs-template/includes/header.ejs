@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="<%= isAdmin ? '/css/admin.css' :'' %>"  rel="stylesheet" />
+    <title><%= pageTitle %></title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav><a class="logo" href="#">Faham</a>
+                <ul>
+                    <li><a href="/" class="<%= isPresentation ? 'active' :'' %>">Presentation</a></li>
+                    <li><a href="/shop" class="<%= isShop ? 'active' :'' %>">Shop</a></li>
+                    <li><a href="/cart" class="<%= isCart ? 'active' :'' %>">Cart</a></li>
+                    <li><a href="/admin/add-product" class="<%= isAddProduct ? 'active' :'' %>">Add Product</a></li>
+                    <li><a href="/admin/products" class="<%= isProductList ? 'active' :'' %>">Admin Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>

@@ -1,0 +1,28 @@
+<%- include('../includes/header.ejs') %>
+<main>
+    <div class="container">
+        <div class="showcase">
+            <h2>Shop is now ..., enjoyy !!</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque dolores a eos provident placeat
+                recusandae molestias, eligendi itaque dolorum quisquam qui in fuga numquam voluptatum accusamus ad?
+                Totam laboriosam enim maiores, quaerat ea dolorum facere mollitia necessitatibus autem amet quisquam
+                dolor illo consequuntur. Explicabo totam illum officiis molestiae corporis. ipsum dolor sit amet
+                consectetur adipisicing elit. Perspiciatis consequuntur harum dolorum Laboriosam, ad ratione natus
+                quas molestiae nemo! Et!</p>
+        </div>
+        <% if(products.length>0) { %>
+            <% products.forEach((product)=>{ %>
+                <div class="product-item">
+                    <h2><%= product.title %></h2>
+                    <h3><%= product.price %></h3>
+                    <p><%= product.description %></p>
+                </div>
+            <% }) %>
+        <% }  else { %>
+            <h2>No Products for now ...</h2>
+        <% } %>
+    </div>
+
+</main>
+
+<%- include('../includes/footer.ejs') %>

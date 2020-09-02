@@ -1,0 +1,15 @@
+extends layouts/main-layout.pug
+block styles
+    link(href="/css/admin.css", rel="stylesheet")
+block content
+    main
+        .container
+            .showcase
+                h2 Welcome administrator
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque dolores a eos provident placeat recusandae molestias, eligendi itaque dolorum quisquam qui in fuga numquam voluptatum, accusamus ad? Totam laboriosam enim maiores, quaerat ea dolorum facere mollitia necessitatibus autem fuga amet quisquam dolor illo consequuntur. Explicabo totam illum officiis molestiae corporis.
+
+            .form__container
+                form(action="/admin/add-product", method="post")
+                    label(for="name") Name
+                    input(type="text",name="name",id="name")
+                    button(type="submit") Add product

@@ -1,0 +1,33 @@
+.form__container{
+    padding:3em;
+    margin-top: 2em; 
+    display: flex;
+    justify-items: center;
+    background-color: #0000001e;
+}
+.form__container *{
+    display: block;
+}
+
+.form__container label{
+    font-size: 1.4em;
+    color: rgba(0, 0, 0, 0.493);
+}
+
+.form__container input, .form__container .description__area{
+    margin-top: 1.2em;
+    width: 700px;
+    border:0.4px solid #c8181865;
+    border-radius: 25px;
+    padding:3em;
+}
+
+.form__container button{
+    margin-top: 1.2em;
+    border-radius: 25px;
+    border: 1px solid orange;
+    background-color: white;
+    color: orange;
+    padding:0.6em 2em;
+}
+
