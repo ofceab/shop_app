@@ -66,6 +66,58 @@ const getProductList = (req, res) => {
     });
 }
 
+/**
+ * To edit a product
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getEditProduct = (req, res) => {
+    const productId = req.params.productId;
+    //Getting product data
+    const product = Product.getProduct(productId);
+    res.render('admin/edit-product', {
+        pageTitle: `Edit ${product.title}`,
+        product: product,
+        isAdmin: true,
+        isShop: false,
+        isCart: false,
+        isProductList: false,
+        isPresentation: false,
+        isAddProduct: false
+    })
+};
+
+const saveProductUpdate = (req, res) => {
+    const productData = req.body;
+    console.log(productData);
+    //Getting product data
+    Product.updateProduct(productData.index, productData);
+    res.redirect('/admin/products');
+};
+
+
+
+/**
+ * To view details of a product 
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getproductDetails = (req, res) => {
+    const productId = req.params.productId;
+    //Getting product data
+    const product = Product.getProduct(productId);
+    res.render('shop/product-details', {
+        pageTitle: `Details of ${product.title}`,
+        product: product,
+        isAdmin: true,
+        isShop: false,
+        isCart: false,
+        isProductList: false,
+        isPresentation: false,
+        isAddProduct: false
+    });
+}
+
 
 const deteleProduct = (req, res) => {
     console.log(req.body.index)
@@ -78,5 +130,8 @@ module.exports = {
     saveProduct,
     getAllProduct,
     getProductList,
-    deteleProduct
+    deteleProduct,
+    getproductDetails,
+    getEditProduct,
+    saveProductUpdate
 };

@@ -1,14 +1,36 @@
 <%- include('../includes/header.ejs') %>
+
 <main>
     <div class="container">
         <div class="showcase">
-            <h2>Welcome Admin edit product page</h2>
+            <h2>Welcome administrator</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque dolores a eos provident placeat
-                recusandae molestias, eligendi itaque dolorum quisquam qui in fuga numquam voluptatumaccusamus ad?
-                Totam laboriosam enim maiores, quaerat ea dolorum facere mollitia necessitatibus autem amet quisquam
-                dolor illo consequuntur. Explicabo totam illum officiis molestiae corporis. ipsum dolor sit amet
-                consectetur adipisicing elit. Perspiciatis consequuntur harum dolorumLaboriosam, ad ratione natus
-                quas molestiae nemo! Et!</p>
+                recusandae molestias, eligendi itaque dolorum quisquam qui in fuga numquam voluptatum, accusamus ad?
+                Totam laboriosam enim maiores, quaerat ea dolorum facere mollitia necessitatibus autem fuga amet
+                quisquam dolor illo consequuntur. Explicabo totam illum officiis molestiae corporis.</p>
+        </div>
+        <div class="form__container">
+            <form action="/admin/edit" method="post">
+                <input type="hidden" name="index" value="<%= product.index %>" />
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" value="<%= product.title %>" id="name" />
+                </div>
+                <div>
+                    <label for="price">Price</label>
+                    <input type="number" name="price" value="<%= product.price %>" id="price" />
+                </div>
+                <div>
+                    <label for="image">Image URL</label>
+                    <input type="text" name="image" value="<%= product.imageUrl %>" id="image" />
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <textarea type="text" name="description" id="description" minlength="7"
+                        class="description__area"><%= product.description %></textarea>
+                </div>
+                <button type="submit">Update product</button>
+            </form>
         </div>
     </div>
 </main>

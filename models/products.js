@@ -77,13 +77,13 @@ module.exports = class Product {
     /**
      * Update a product
      */
-    static updateProduct(index, title, description, price, imageUrl) {
+    static updateProduct(index, data) {
         if (index !== undefined) {
             const productsList = Product.getAllProduct();
-            productsList[index].description = description;
-            productsList[index].price = price;
-            productsList[index].imageUrl = imageUrl;
-            productsList[index].title = title;
+            productsList[index].description = data.description;
+            productsList[index].price = data.price;
+            productsList[index].imageUrl = data.image;
+            productsList[index].title = data.name;
 
             //Convert them to json again
             const productInJson = productsList.map(product => product.fromProductToJson());
@@ -107,5 +107,13 @@ module.exports = class Product {
             const productInJson = filteredListProduct.map(product => product.fromProductToJson());
             fs.writeFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), JSON.stringify(productInJson));
         }
+    }
+
+    /**
+     * Get product data, for a single product
+     */
+    static getProduct(index) {
+        const products = this.getAllProduct();
+        return products[parseInt(index)]; //Returning the data
     }
 }

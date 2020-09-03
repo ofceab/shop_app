@@ -14,16 +14,18 @@ router.get('/add-product', productsController.addProduct);
 //To handle the /add-product router that allow the admin to add product
 router.post('/add-product', productsController.saveProduct);
 
-router.get('')
+/**
+ * edit a product
+ */
+router.get('/edit/:productId', productsController.getEditProduct);
+
+router.post('/edit', productsController.saveProductUpdate);
+
 /**
  * Delete a product
  */
 router.post('/delete', productsController.deteleProduct);
 
-/**
- * edit a product
- */
-router.post('/edit',);
 
 
 //to get all the product list

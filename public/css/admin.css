@@ -31,3 +31,34 @@
     padding:0.6em 2em;
 }
 
+.admin__actions{
+    /* padding:3em; */
+    /* background-color: orange; */
+}
+
+.admin__actions form{
+    margin: 1.2em 0.7em 0 0;
+    display: inline-block;
+}
+
+.admin__actions form button,.btn{
+    padding:0.7em 2.7em;
+    border:1px solid orange;
+    border-radius: 25px;
+    background-color: white;
+    cursor: pointer;
+}
+
+a.btn{
+    text-decoration:none;
+    color: black;
+}
+
+.admin__actions form button:hover,a.btn:hover{
+    background-color: #00df0098;
+    color: white;
+}
+
+button{
+    cursor: pointer;
+}

@@ -14,19 +14,17 @@
         <% products.forEach((product)=>{ %>
         <div class="product-item">
             <h2><%= product.title %></h2>
-            <h3><%= product.price %></h3>
-            <p><%= product.description %></p>
+            <br>
+            <h5>Price: <%= product.price %> €</h5>
             <div class="admin__actions">
-                <form action="/admin/delete" method="post" class="form__container">
+                <form action="/admin/delete" method="post">
                     <input type="hidden" name="index" value="<%= product.index %>">
                     <button type="submit">Delete</button>
                 </form>
-                <form action="/edit" method="post" class="form__container">
-                    <input type="hidden" name="index" value="<%= product.index %>">
-                    <button type="submit">Edit</button>
-                </form>
+                <a href="/detail/<%= product.index %>" class="btn">Details</a>
+                <a href="/admin/edit/<%= product.index %>" class="btn">edit</a>
             </div>
-            
+
         </div>
         <% }) %>
         <% }  else { %>

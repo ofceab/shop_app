@@ -2,13 +2,14 @@
 <main>
     <div class="container">
         <div class="showcase">
-            <h2>Welcome to product details page</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque dolores a eos provident placeat
-                recusandae molestias, eligendi itaque dolorum quisquam qui in fuga numquam voluptatumaccusamus ad?
-                Totam laboriosam enim maiores, quaerat ea dolorum facere mollitia necessitatibus autem amet quisquam
-                dolor illo consequuntur. Explicabo totam illum officiis molestiae corporis. ipsum dolor sit amet
-                consectetur adipisicing elit. Perspiciatis consequuntur harum dolorumLaboriosam, ad ratione natus
-                quas molestiae nemo! Et!</p>
+            <h2><%= product.title %></h2>
+            <p><%= product.description %></p>
+            <div class="admin__actions">
+                <form action="/cart" method="post">
+                    <input type="hidden" name="index" value="<%= product.index %>">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </div>
         </div>
     </div>
 </main>
