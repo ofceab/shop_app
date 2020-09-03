@@ -82,3 +82,27 @@ main .product-item{
 .active{
     color: white;
 }
+
+
+.product-item{
+    display: inline-block;
+    width: 25%;
+    box-shadow: 10px 10px 10px orange;
+}
+
+#cart-container{
+    margin-top: 1.1em;
+}
+
+.full-price{
+    margin-top: 1.4em;
+    margin-bottom: 2.3em;
+}
+.btn{
+    margin-top: 0.3em;
+    padding:0.7em 2em;
+    border:1px solid orange;
+    border-radius: 25px;
+    background-color: white;
+    cursor: pointer;
+}

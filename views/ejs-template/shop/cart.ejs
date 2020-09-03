@@ -10,6 +10,28 @@
                 consectetur adipisicing elit. Perspiciatis consequuntur harum dolorumLaboriosam, ad ratione natus
                 quas molestiae nemo! Et!</p>
         </div>
+        <div class="showcase" id="cart-container">
+            <% if(products.length>0){ %>
+            <% products.forEach(product =>{ %>
+            <div class="product-item">
+                <h3><%= product.title %></h3>
+                <h5>Quantity: <%= product.quantity %></h5>
+                <h5>Unit Price: <%= product.price %> €</h5>
+                <h5>Total Price: <%= (product.price*product.quantity) %> €</h5>
+                <form class="form__container" action="/remove" method="post">
+                    <!-- <input type="number" name="quantity" placeholder="Quantity"> -->
+                    <input type="hidden" name="index" value="<%= product.index %>">
+                    <button type="submit" class="btn">Remove</button>
+                </form>
+            </div>
+            <% }) %>
+            <div class="full-price">
+                <h3>Full Price: <%= price %> €</h3>
+            </div>
+            <% } else { %>
+            <h3>Nothing in the cart</h3>
+            <% } %>
+        </div>
     </div>
 </main>
 <%- include('../includes/footer.ejs') %>

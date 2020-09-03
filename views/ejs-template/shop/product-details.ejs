@@ -3,14 +3,15 @@
     <div class="container">
         <div class="showcase">
             <h2><%= product.title %></h2>
-            <p><%= product.description %></p>
+            <h4>Price: <%= product.price %> €</h4>
+            <p><%= product.description %></p><br>
             <div class="admin__actions">
-                <form action="/cart" method="post">
+                <form class="form__container" action="/cart" method="post">
+                    <input type="number" name="quantity" placeholder="Quantity">
                     <input type="hidden" name="index" value="<%= product.index %>">
                     <button type="submit">Add to Cart</button>
                 </form>
             </div>
         </div>
-    </div>
 </main>
 <%- include('../includes/footer.ejs') %>

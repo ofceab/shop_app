@@ -26,7 +26,6 @@ const addProduct = (req, res) => {
  * @param {*} res the response object
  */
 const saveProduct = (req, res) => {
-    console.log(req.body);
     const product = new Product(req.body.name, req.body.description, req.body.price, req.body.image);
     product.save()
     res.redirect('/admin/products');
@@ -39,11 +38,10 @@ const saveProduct = (req, res) => {
  */
 const getAllProduct = (req, res) => {
     const productsList = Product.getAllProduct();
-    console.log(productsList);
     res.render('shop/products-list', {
         pageTitle: 'Shopping now .....!',
         products: productsList,
-        isAdmin: false,
+        isAdmin: true,
         isShop: true,
         isProductList: false,
         isCart: false,
@@ -89,7 +87,6 @@ const getEditProduct = (req, res) => {
 
 const saveProductUpdate = (req, res) => {
     const productData = req.body;
-    console.log(productData);
     //Getting product data
     Product.updateProduct(productData.index, productData);
     res.redirect('/admin/products');
@@ -120,7 +117,6 @@ const getproductDetails = (req, res) => {
 
 
 const deteleProduct = (req, res) => {
-    console.log(req.body.index)
     Product.deleteProduct(req.body.index);
     res.redirect('/admin/products');
 }
