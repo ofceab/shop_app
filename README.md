@@ -6,3 +6,5 @@ This project is still under progress development
 
         - Add Product panel for admin
         - Product list view
+        - Add, remove product from cart
+        -Edit a product from for the admin
