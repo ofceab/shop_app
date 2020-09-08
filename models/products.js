@@ -1,8 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-
 const rootDir = require('../helpers/path');
-const { parse } = require('path');
+const database = require('../helpers/database');
 
 module.exports = class Product {
     /**
@@ -24,20 +21,12 @@ module.exports = class Product {
      * Save the product
      */
     save() {
-        if (fs.existsSync(path.join(rootDir, 'models', 'datasource', 'data.json'))) {
-            const data = fs.readFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), {
-                encoding: 'utf8'
-            });
-            const tempData = JSON.parse(data);
-            tempData.push(this.fromProductToJson());
-            console.log(this.fromProductToJson());
-            fs.writeFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), JSON.stringify(tempData));
-        }
-
-        else {
-            const initProducts = []; //Here for initialisation
-            initProducts.push(this.fromProductToJson()); //Add data into array
-            fs.writeFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), JSON.stringify(initProducts));
+        //This return a promise
+        try {
+            return database.execute('INSERT INTO products (title,description,price, imageUrl) VALUES (?, ?, ?, ?)',
+                [this.title, this.description, this.price, this.imageUrl]);
+        } catch (error) {
+            console.log(error.toString());
         }
     }
 
@@ -57,20 +46,10 @@ module.exports = class Product {
      * Get all the product from the database
      */
     static getAllProduct() {
-        if (fs.existsSync(path.join(rootDir, 'models', 'datasource', 'data.json'))) {
-            const productsJSON = JSON.parse(fs.readFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), {
-                encoding: 'utf8'
-            }));
-
-            const products = [];
-            for (let i = 0; i < productsJSON.length; i++) {
-                products.push((new Product(productsJSON[i].title, productsJSON[i].description, productsJSON[i].price, productsJSON[i].imageUrl, parseInt(i))));
-            }
-            return products;
-        }
-
-        else {
-            return []; //So there is no data
+        try {
+            return database.execute('SELECT * FROM products');
+        } catch (error) {
+            console.log(error.toString());
         }
     }
 
@@ -113,7 +92,6 @@ module.exports = class Product {
      * Get product data, for a single product
      */
     static getProduct(index) {
-        const products = this.getAllProduct();
-        return products[parseInt(index)]; //Returning the data
+        return database.execute('SELECT * FROM products WHERE products.id= ?', [parseInt(index)]);
     }
 }

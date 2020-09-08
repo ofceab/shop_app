@@ -28,7 +28,12 @@ const addProduct = (req, res) => {
 const saveProduct = (req, res) => {
     const product = new Product(req.body.name, req.body.description, req.body.price, req.body.image);
     product.save()
-    res.redirect('/admin/products');
+        .then(() => {
+            res.redirect('/admin/products');
+        }).
+        catch(() => {
+            console.log(error.toString());
+        })
 };
 
 /**
@@ -37,32 +42,38 @@ const saveProduct = (req, res) => {
  * @param {*} res 
  */
 const getAllProduct = (req, res) => {
-    const productsList = Product.getAllProduct();
-    res.render('shop/products-list', {
-        pageTitle: 'Shopping now .....!',
-        products: productsList,
-        isAdmin: true,
-        isShop: true,
-        isProductList: false,
-        isCart: false,
-        isPresentation: false,
-        isAddProduct: false
-    });
+    Product.getAllProduct()
+        .then(([products]) => {
+            res.render('shop/products-list', {
+                pageTitle: 'Shopping now .....!',
+                products: products,
+                isAdmin: true,
+                isShop: true,
+                isProductList: false,
+                isCart: false,
+                isPresentation: false,
+                isAddProduct: false
+            });
+        })
+        .catch((e) => console.log(e));
 };
 
 const getProductList = (req, res) => {
-    const products = Product.getAllProduct();
-    res.render('admin/admin-product-list', {
-        pageTitle: 'Admin product list page',
-        products: products,
-        isAdmin: true,
-        isShop: false,
-        isCart: false,
-        isProductList: true,
-        isPresentation: false,
-        isAddProduct: false
-    });
-}
+    Product.getAllProduct()
+        .then(([products]) => {
+            res.render('admin/admin-product-list', {
+                pageTitle: 'Admin product list page',
+                products: products,
+                isAdmin: true,
+                isShop: false,
+                isCart: false,
+                isProductList: true,
+                isPresentation: false,
+                isAddProduct: false
+            });
+        })
+        .catch((e) => console.log(e));
+};
 
 /**
  * To edit a product
@@ -102,17 +113,20 @@ const saveProductUpdate = (req, res) => {
 const getproductDetails = (req, res) => {
     const productId = req.params.productId;
     //Getting product data
-    const product = Product.getProduct(productId);
-    res.render('shop/product-details', {
-        pageTitle: `Details of ${product.title}`,
-        product: product,
-        isAdmin: true,
-        isShop: false,
-        isCart: false,
-        isProductList: false,
-        isPresentation: false,
-        isAddProduct: false
-    });
+    Product.getProduct(productId)
+        .then(([[product]]) => {
+            res.render('shop/product-details', {
+                pageTitle: `Details of ${product.title}`,
+                product: product,
+                isAdmin: true,
+                isShop: false,
+                isCart: false,
+                isProductList: false,
+                isPresentation: false,
+                isAddProduct: false
+            });
+        })
+        .catch((e) => console.log(e.toString()));
 }
 
 

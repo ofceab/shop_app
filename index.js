@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 //Personnal importation
+const database = require('./helpers/database');
 const { router } = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const errorRouter = require('./routes/error');
@@ -17,6 +18,7 @@ const app = express();
 //Ejs engine
 app.set('view engine', 'ejs');
 app.set('views', 'views/ejs-template');
+
 
 
 //Pug engine
