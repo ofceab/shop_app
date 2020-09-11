@@ -9,6 +9,7 @@ const shopRouter = require('./routes/shop');
 const errorRouter = require('./routes/error');
 const homeRouter = require('./routes/home');
 const rootDir = require('./helpers/path');
+const sequelize = require('./helpers/database');
 
 //Create the application
 const app = express();
@@ -47,4 +48,10 @@ app.use(homeRouter);
 //For the [Note found error]
 app.use(errorRouter);
 
-app.listen(3000, () => console.log('The server is running !'));
+sequelize.sync()
+    .then(() => {
+        app.listen(3000, () => console.log('The server is running !'));
+    })
+    .catch((error) => {
+        console.log(error)
+    })

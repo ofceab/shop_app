@@ -1,16 +1,8 @@
-/**
- * This file is about connection to the mysql database
- * so all configuration to acces to that database is made here
- */
-const mysql = require('mysql2');
+const Sequelize = require('sequelize');
 
-
-//Creaction poolConnection
-const mysqlPoolConnection = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'Codesource2019',
-    database: 'shop-app'
+const sequelize = new Sequelize('shop-app-sequelize', 'root', 'Codesource2019', {
+    dialect: 'mysql',
+    host: 'localhost'
 });
 
-module.exports = mysqlPoolConnection.promise();
+module.exports = sequelize;

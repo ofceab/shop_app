@@ -1,4 +1,4 @@
-const Product = require('../models/products')
+const Product = require('../models/products');
 
 /**
  * This function is the addProduct controller, 
@@ -22,14 +22,19 @@ const addProduct = (req, res) => {
  * @param {*} res the response object
  */
 const saveProduct = (req, res) => {
-    const product = new Product(req.body.name, req.body.description, req.body.price, req.body.image);
-    product.save()
-        .then(() => {
-            res.redirect('/admin/products');
-        }).
+    Product.create({
+        title: req.body.name,
+        description: req.body.description,
+        price: parseInt(req.body.price),
+        imageUrl: req.body.image
+    }).then(() => {
+        res.redirect('/admin/products');
+    })
+        .
         catch(() => {
             console.log(error.toString());
         })
+
 };
 
 /**
@@ -38,8 +43,8 @@ const saveProduct = (req, res) => {
  * @param {*} res 
  */
 const getAllProduct = (req, res) => {
-    Product.getAllProduct()
-        .then(([products]) => {
+    Product.findAll()
+        .then(products => {
             res.render('shop/products-list', {
                 pageTitle: 'Shopping now .....!',
                 products: products,
@@ -51,8 +56,8 @@ const getAllProduct = (req, res) => {
 };
 
 const getProductList = (req, res) => {
-    Product.getAllProduct()
-        .then(([products]) => {
+    Product.findAll()
+        .then(products => {
             res.render('admin/admin-product-list', {
                 pageTitle: 'Admin product list page',
                 products: products,
@@ -71,9 +76,12 @@ const getProductList = (req, res) => {
 const getEditProduct = (req, res) => {
     const productId = req.params.productId;
     //Getting product data
-    Product.getProduct(productId)
-        .then(([[product]]) => {
-            console.log(product)
+    Product.findAll({
+        where: {
+            id: parseInt(productId)
+        }
+    })
+        .then(([product]) => {
             res.render('admin/edit-product', {
                 pageTitle: `Edit ${product.title}`,
                 product: product,
@@ -86,11 +94,22 @@ const getEditProduct = (req, res) => {
 
 const saveProductUpdate = (req, res) => {
     const productData = req.body;
+    console.log(productData);
     //Getting product data
-    Product.updateProduct(productData)
-        .then(() => {
-            res.redirect('/admin/products');
-        });
+    Product.findAll({
+        where: {
+            id: parseInt(productData.index),
+        }
+    })
+        .then(([product]) => {
+            product.title = productData.name;
+            product.price = parseInt(productData.price);
+            product.imageUrl = productData.image;
+            product.description = productData.description;
+            return product.save();
+        })
+        .then(() => res.redirect('/admin/products'))
+        .catch(error => console.error(error))
 
 };
 
@@ -104,17 +123,18 @@ const saveProductUpdate = (req, res) => {
 const getproductDetails = (req, res) => {
     const productId = req.params.productId;
     //Getting product data
-    Product.getProduct(productId)
-        .then(([[product]]) => {
+    Product.findAll({
+        where: {
+            id: productId
+        }
+    })
+        .then(([product]) => {
+            console.log(product)
             res.render('shop/product-details', {
                 pageTitle: `Details of ${product.title}`,
                 product: product,
                 isAdmin: true,
-                isShop: false,
-                isCart: false,
-                isProductList: false,
-                isPresentation: false,
-                isAddProduct: false
+                path: 'shop/details'
             });
         })
         .catch((e) => console.log(e.toString()));
@@ -122,10 +142,14 @@ const getproductDetails = (req, res) => {
 
 
 const deteleProduct = (req, res) => {
-    Product.deleteProduct(req.body.index)
-        .then(() => {
-            res.redirect('/admin/products');
-        })
+    Product.destroy({
+        where: {
+            id: parseInt(req.body.index)
+        }
+    }).then(() => {
+        res.redirect('/admin/products');
+    }).catch(error => console.error(error));
+
 }
 //Export controllers 
 module.exports = {
