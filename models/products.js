@@ -56,17 +56,13 @@ module.exports = class Product {
     /**
      * Update a product
      */
-    static updateProduct(index, data) {
-        if (index !== undefined) {
-            const productsList = Product.getAllProduct();
-            productsList[index].description = data.description;
-            productsList[index].price = data.price;
-            productsList[index].imageUrl = data.image;
-            productsList[index].title = data.name;
-
-            //Convert them to json again
-            const productInJson = productsList.map(product => product.fromProductToJson());
-            fs.writeFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), JSON.stringify(productInJson));
+    static updateProduct(data) {
+        try {
+            console.log(parseInt(data.index));
+            return database.execute('UPDATE products SET title=?, description=?, price=?, imageUrl=? WHERE id= ?',
+                [data.name, data.description, parseInt(data.price), data.image, parseInt(data.index)]);
+        } catch (error) {
+            console.log("'dd" + error.toString());
         }
     }
 
@@ -74,17 +70,11 @@ module.exports = class Product {
      * Delete a product
      */
     static deleteProduct(index) {
-        if (index !== undefined) {
-            const productList = Product.getAllProduct()
-            const filteredListProduct = [];
-            const ind = parseInt(index);
-            for (let i = 0; i < productList.length; i++) {
-                if (ind != i) {
-                    filteredListProduct.push(productList[i]);
-                }
-            }
-            const productInJson = filteredListProduct.map(product => product.fromProductToJson());
-            fs.writeFileSync(path.join(rootDir, 'models', 'datasource', 'data.json'), JSON.stringify(productInJson));
+        try {
+            console.log(index)
+            return database.execute('DELETE FROM products WHERE products.id= ?', [index]);
+        } catch (error) {
+            console.log(error.toString())
         }
     }
 

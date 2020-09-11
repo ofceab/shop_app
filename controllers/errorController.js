@@ -8,11 +8,7 @@ const get404Error = (req, res) => {
         pageTitle: 'Page not found ',
         pageName: req.url,
         isAdmin: false,
-        isShop: false,
-        isCart: false,
-        isProductList: false,
-        isPresentation: false,
-        isAddProduct: false
+        path: 'error.error'
     })
 };
 

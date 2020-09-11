@@ -17,11 +17,7 @@ const getCart = (req, res) => {
             products: products,
             price: data.totalPrice,
             isAdmin: false,
-            isShop: false,
-            isCart: true,
-            isProductList: false,
-            isPresentation: false,
-            isAddProduct: false
+            path: '/cart'
         })
     })
 };
@@ -41,17 +37,18 @@ const checkout = (req, res) => {
 
 const addToCart = (req, res) => {
     //Construct the product Object
-    const iD = req.body.index;
-    const qT = req.body.quantity
+    const iD = req.body.id;
+    const qT = req.body.quantity;
+    const price = req.body.price;
     const productObj = {
-        productId: iD,
-        price: Product.getProduct(iD).price,
+        id: iD,
+        price: price,
         quantity: qT
     };
-    Cart.addProductToCart(productObj, () => {
-        console.log('Gui')
-        res.redirect('/cart');
-    });
+    Cart.addProductToCart(productObj)
+        .then(() => {
+            res.redirect('/cart');
+        })
     // console.log(productObj);
 }
 

@@ -11,11 +11,7 @@ const addProduct = (req, res) => {
     res.render('admin/add-product', {
         pageTitle: 'Admin panel',
         isAdmin: true,
-        isShop: false,
-        isCart: false,
-        isProductList: false,
-        isPresentation: false,
-        isAddProduct: true
+        path: '/admin/add-product'
     });
 }
 
@@ -48,11 +44,7 @@ const getAllProduct = (req, res) => {
                 pageTitle: 'Shopping now .....!',
                 products: products,
                 isAdmin: true,
-                isShop: true,
-                isProductList: false,
-                isCart: false,
-                isPresentation: false,
-                isAddProduct: false
+                path: '/shop'
             });
         })
         .catch((e) => console.log(e));
@@ -65,11 +57,7 @@ const getProductList = (req, res) => {
                 pageTitle: 'Admin product list page',
                 products: products,
                 isAdmin: true,
-                isShop: false,
-                isCart: false,
-                isProductList: true,
-                isPresentation: false,
-                isAddProduct: false
+                path: '/admin/products'
             });
         })
         .catch((e) => console.log(e));
@@ -83,24 +71,27 @@ const getProductList = (req, res) => {
 const getEditProduct = (req, res) => {
     const productId = req.params.productId;
     //Getting product data
-    const product = Product.getProduct(productId);
-    res.render('admin/edit-product', {
-        pageTitle: `Edit ${product.title}`,
-        product: product,
-        isAdmin: true,
-        isShop: false,
-        isCart: false,
-        isProductList: false,
-        isPresentation: false,
-        isAddProduct: false
-    })
+    Product.getProduct(productId)
+        .then(([[product]]) => {
+            console.log(product)
+            res.render('admin/edit-product', {
+                pageTitle: `Edit ${product.title}`,
+                product: product,
+                isAdmin: true,
+                path: 'admin/edit-product'
+            })
+        })
+
 };
 
 const saveProductUpdate = (req, res) => {
     const productData = req.body;
     //Getting product data
-    Product.updateProduct(productData.index, productData);
-    res.redirect('/admin/products');
+    Product.updateProduct(productData)
+        .then(() => {
+            res.redirect('/admin/products');
+        });
+
 };
 
 
@@ -131,8 +122,10 @@ const getproductDetails = (req, res) => {
 
 
 const deteleProduct = (req, res) => {
-    Product.deleteProduct(req.body.index);
-    res.redirect('/admin/products');
+    Product.deleteProduct(req.body.index)
+        .then(() => {
+            res.redirect('/admin/products');
+        })
 }
 //Export controllers 
 module.exports = {

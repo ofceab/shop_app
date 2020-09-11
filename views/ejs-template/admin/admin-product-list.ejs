@@ -18,7 +18,7 @@
             <h5>Price: <%= product.price %> €</h5>
             <div class="admin__actions">
                 <form action="/admin/delete" method="post">
-                    <input type="hidden" name="index" value="<%= product.index %>">
+                    <input type="hidden" name="index" value="<%= product.id %>">
                     <button type="submit">Delete</button>
                 </form>
                 <a href="/detail/<%= product.id %>" class="btn">Details</a>
