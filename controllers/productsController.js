@@ -22,12 +22,14 @@ const addProduct = (req, res) => {
  * @param {*} res the response object
  */
 const saveProduct = (req, res) => {
-    Product.create({
-        title: req.body.name,
-        description: req.body.description,
-        price: parseInt(req.body.price),
-        imageUrl: req.body.image
-    }).then(() => {
+    req.user.createProduct(
+        {
+            title: req.body.name,
+            description: req.body.description,
+            price: parseInt(req.body.price),
+            imageUrl: req.body.image
+        }
+    ).then(() => {
         res.redirect('/admin/products');
     })
         .

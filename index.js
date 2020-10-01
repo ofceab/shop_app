@@ -3,13 +3,16 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 //Personnal importation
-const database = require('./helpers/database');
 const { router } = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const errorRouter = require('./routes/error');
 const homeRouter = require('./routes/home');
 const rootDir = require('./helpers/path');
 const sequelize = require('./helpers/database');
+const User = require('./models/user');
+const Product = require('./models/products');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 //Create the application
 const app = express();
@@ -34,6 +37,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then((user) => {
+            req.user = user;
+            next();
+        })
+        .catch(() => console.log('An error occured'))
+})
 //TO handle the static file ask
 app.use(express.static(path.join(rootDir, 'public')));
 
@@ -48,10 +59,34 @@ app.use(homeRouter);
 //For the [Note found error]
 app.use(errorRouter);
 
+//Etablish all the associations
+Product.belongsTo(User, { constraintes: true, onDelete: 'CASCADE' });
+User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+//A cart belongs to many product
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
+
+
+// sequelize.sync({ force: true })
 sequelize.sync()
     .then(() => {
-        app.listen(3000, () => console.log('The server is running !'));
+        return User.findByPk(1)
     })
+    .then(user => {
+        if (!user) {
+            return User.create({
+                username: 'Obed',
+                email: 'anemail@gmail.com'
+            });
+        }
+        return user;
+    })
+    .then(user => {
+        return user.createCart();
+    })
+    .then(() => app.listen(3000, () => console.log('The server is running !')))
     .catch((error) => {
         console.log(error)
     })

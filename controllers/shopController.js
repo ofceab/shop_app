@@ -5,21 +5,19 @@ const Cart = require("../models/cart");
  * This controller is to handle the /cart request 
  */
 const getCart = (req, res) => {
-    Cart.getCart((data) => {
-        const products = data.products.map(prod => {
-            const prodD = Product.getProduct(prod.productId)
-            const prods = { ...prodD, ...prod };
-            console.log(prods);
-            return prods;
+    req.user.getCart()
+        .then(cart => {
+            cart.getProducts()
+                .then(products => {
+                    res.render('shop/cart', {
+                        pageTitle: 'Your cart ....',
+                        products: products,
+                        price: 0,
+                        isAdmin: false,
+                        path: '/cart'
+                    })
+                })
         })
-        res.render('shop/cart', {
-            pageTitle: 'Your cart ....',
-            products: products,
-            price: data.totalPrice,
-            isAdmin: false,
-            path: '/cart'
-        })
-    })
 };
 
 
